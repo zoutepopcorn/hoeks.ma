@@ -1,5 +1,6 @@
 # hoeks.ma
-hoeks.ma Location
+
+Hoeks.ma Location (LoRaWAN +  microcontroller based on wifi spots)
 
 Test file
 
