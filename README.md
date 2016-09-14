@@ -17,7 +17,7 @@ I use The Thingsnetwork to connect my node
 - https://github.com/hallard/WeMos-Lora
 
 # howto
-Arduino
+***Arduino***
 - Make sure you have a working ESP8266 / hoperfm node:
 -     Install https://github.com/esp8266/Arduino
 -     Install the lmic library: https://github.com/matthijskooijman/arduino-lmic/ (see installing)
@@ -25,7 +25,7 @@ Arduino
 - Edit your keys
 - Flash to your esp
 
-Node.js
+***Node.js***
 - Install node.js on your local machine or on your server
 - run "npm install wifi-location -g" in your terminal. Maybe you have to use sudo or cmd adm. in windows.
 - copy the map node.js to your computer
