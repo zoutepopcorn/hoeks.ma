@@ -10,7 +10,7 @@ I use The Thingsnetwork to connect my node
 - 3.3v power supply
 
 # shields
-@Hallard made some shields you can use
+@hallard made some shields you can use
 - https://github.com/hallard/WeMos-Lora
 
 # howto
