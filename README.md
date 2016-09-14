@@ -1,4 +1,4 @@
-# hoeks.ma
+# HLC
 
 HLC is (Hoeks.ma Location) is a method, based on LoRaWAN and a wifi microcontroller (esp8266). The microcontroller will scan for BSSID's from wifi ap's, and sends it to the gateway. Then the server will calculate the location, based on the BSSID's by Google api request.
 
