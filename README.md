@@ -29,5 +29,8 @@ I use The Thingsnetwork to connect my node
 - Install node.js on your local machine or on your server
 - run "npm install wifi-location -g" in your terminal. Maybe you have to use sudo or cmd adm. in windows.
 - copy the map node.js to your computer
+- edit the location.js 
+    var appEUI = '';      // INSERT TTN YOUR AppEUI
+    var accessKey = '';   // INSERT TTN accessKey
 - in the terminal with the node.js files type: node location.js
 - browse localhost or your ip from the server to see your node
