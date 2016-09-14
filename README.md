@@ -5,7 +5,7 @@ HLC is (Hoeks.ma Location) is a method, based on LoRaWAN and a wifi microcontrol
 I use The Thingsnetwork to connect my node
 
 # hardware
-![Screenshot](screenshot.png)
+![Screenshot](esp_hope.png)
 - esp8266 
 - rfm95 (for europe)
 - 3.3v power supply
