@@ -11,7 +11,6 @@ I use The Thingsnetwork to connect my node
 
 ![Screenshot](esp_hope.png)
 
-
 # shields
 @hallard made some shields you can use
 - https://github.com/hallard/WeMos-Lora
@@ -21,7 +20,7 @@ I use The Thingsnetwork to connect my node
 - Make sure you have a working ESP8266 / hoperfm node:
 -     Install https://github.com/esp8266/Arduino
 -     Install the lmic library: https://github.com/matthijskooijman/arduino-lmic/ (see installing)
-- Open the test.ino file in Arduino 
+- Open the location.ino file in Arduino 
 - Edit your keys
 - Flash to your esp
 
