@@ -1,9 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2015 Matthijs Kooijman and Thomas Telkamp 
- * 
- * HLC (Hoeks.ma Location) .ino file edited by Johan Hoeksma                 
+ * Copyright (c) 2015 Matthijs Kooijman and Thomas Telkamp
+ *
+ * HLC (Hoeks.ma Location) .ino file edited by Johan Hoeksma
  * You will need a esp8266
- * 
+ *
  * Permission is hereby granted, free of charge, to anyone
  * obtaining a copy of this document and accompanying files,
  * to do whatever they want with them without any restriction,
@@ -35,9 +35,9 @@
 #define USE_SERIAL Serial
 
 // use ttn dashboard to get this keys
-static const PROGMEM u1_t NWKSKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-static const u1_t PROGMEM APPSKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-static const u4_t DEVADDR = 0x00000000; // <-- Change this address for every node!
+static const PROGMEM u1_t NWKSKEY[16] = { 0x47, 0xAE, 0x21, 0xA9, 0xDF, 0xDA, 0x5C, 0x27, 0xB1, 0xEF, 0x99, 0xAB, 0x53, 0x81, 0x4A, 0xE5 };
+static const u1_t PROGMEM APPSKEY[16] = { 0x22, 0x9D, 0x2A, 0x58, 0x1D, 0xA7, 0xC7, 0x32, 0x4E, 0xA9, 0x4C, 0x9D, 0xE8, 0x77, 0xF1, 0x34 };
+static const u4_t DEVADDR = 0x26011B0A; // <-- Change this address for every node!
 
 // WiFi vars
 static const int NR_MACS = 3;
@@ -59,7 +59,7 @@ const unsigned TX_INTERVAL = 60;
 
 // Pin mapping ESP8266   D8 -> Slave select
 const lmic_pinmap lmic_pins = {
-    .nss = D8,
+    .nss = 15,
     .rxtx = LMIC_UNUSED_PIN,
     .rst = LMIC_UNUSED_PIN,
     .dio = {LMIC_UNUSED_PIN, LMIC_UNUSED_PIN, LMIC_UNUSED_PIN},
@@ -75,7 +75,7 @@ void ota() {
         USE_SERIAL.flush();
         delay(1000);
     }
-    
+
     Serial.println("setup complete");
     delay(5000);
     if(WiFiMulti.run() != WL_CONNECTED)  {
@@ -97,7 +97,7 @@ void ota() {
                 USE_SERIAL.println("HTTP_UPDATE_OK");
                 break;
         }
-    }  
+    }
 }
 
 boolean hasLocation() {
