@@ -1,0 +1,16 @@
+{
+  "name": "node.js",
+  "version": "0.0.2",
+  "description": "Location LoRa with WiFi",
+  "main": "location.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zoutepopcorn",
+  "license": "GPL",
+  "dependencies": {
+    "socket.io": "^1.7.3",
+    "ttn": "^2.0.1",
+    "wifi-location": "0.0.1"
+  }
+}
