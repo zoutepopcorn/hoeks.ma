@@ -67,7 +67,7 @@ client.on('activation', function (evt) {
 });
 
 client.on('error', function (err) {
-  // TODO: Handle error
+  console.error('[ERROR]', err.message);
 });
 
 function setSocket(s) {
