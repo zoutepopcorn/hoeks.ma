@@ -40,23 +40,25 @@ io.sockets.on('connection', function (socket) {
     });
 });
 
-client.on('uplink', function (msg) {
-  var raw = new Buffer(msg.fields.raw, 'base64');
+client.on('message', function (deviceId, msg) {
+  var formattedData = JSON.parse(JSON.stringify(msg, null, 2))
+  formattedData.payload_raw = formattedData.payload_raw.data;
+  console.info(formattedData.payload_raw);
   console.log();
-  console.log("lengte " + raw.length);
+  console.log("length " + formattedData.payload_raw.length);
   var mac = [];
   var rssi = [];
   var tmp = "";
-  for(i=0; i < raw.length; i++) {
+  for(i=0; i < formattedData.payload_raw.length; i++) {
       if((i + 1) % 7 == 0) {
          tmp = tmp.slice(0,-1);
-         rssi = parseInt(raw[i]);
+         rssi = parseInt(formattedData.payload_raw[i]);
          console.log("mac " + tmp + " rssi " + rssi);
          mac.push({ mac: tmp, ssid: '', signal_level: "-" + rssi });
          i++;
          tmp = "";
       }
-      var hex = parseInt(raw[i]).toString(16);
+      var hex = parseInt(formattedData.payload_raw[i]).toString(16);
       tmp  = tmp + hex + ":";
   }
   getLocation(mac);
