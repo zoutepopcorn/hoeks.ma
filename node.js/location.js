@@ -5,9 +5,9 @@ var io = require('socket.io')(app);
 var fs = require('fs');
 var sock = null;
 app.listen(80);
-var appEUI = '';      // INSERT TTN YOUR AppEUI
+var appId = '';      // INSERT TTN YOUR AppEUI
 var accessKey = '';   // INSERT TTN accessKey
-var client = new ttn.Client('staging.thethingsnetwork.org', appEUI, accessKey);
+var client = new ttn.Client('eu', appId, accessKey);
 
 function handler (req, res) {
   fs.readFile(__dirname + '/index.html',
@@ -85,7 +85,7 @@ function getLocation(plop) {
       console.log(loc.latitude + ", " + loc.longitude);
       console.log("error: " + err);
       if(sock != null) {
-        sock.emit('location', loc.latitude + "," + loc.longitude);
+        io.sockets.emit('location', loc.latitude + "," + loc.longitude);
       }
     });
 }
