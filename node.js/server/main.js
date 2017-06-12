@@ -1,45 +1,18 @@
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+var mysql = require('mysql');
 var gps = require('wifi-location');
 var ttn = require('ttn');
-var app = require('http').createServer(handler)
-var io = require('socket.io')(app);
-var fs = require('fs');
 var sock = null;
-app.listen(80);
-var appId = '';      // INSERT TTN YOUR AppEUI
-var accessKey = '';   // INSERT TTN accessKey
+var appId = 'tishcatrack';      // INSERT TTN YOUR AppEUI
+var accessKey = 'ttn-account-v2.NuxDXbvuSyi0SJlXY0N5IOcZYyEgiyRS-btAukllQWI';   // INSERT TTN accessKey
 var client = new ttn.Client('eu', appId, accessKey);
-
-function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
-    res.writeHead(200);
-    res.end(data);
-  });
-}
-
-io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-  setSocket(socket);
-});
-
+//------------------ ( TTN ) ---------------------------
 client.on('connect', function() {
-  console.log('connected');
+  console.log('Conectado a TTN');
 });
-
-io.sockets.on('connection', function (socket) {
-    socket.on('messageChange', function (data) {
-      console.log(data);
-      socket.emit('receive', data.message.split('').reverse().join('') );
-    });
-});
-
 client.on('message', function (deviceId, msg) {
   var formattedData = JSON.parse(JSON.stringify(msg, null, 2))
   formattedData.payload_raw = formattedData.payload_raw.data;
@@ -91,3 +64,40 @@ function getLocation(plop) {
       }
     });
 }
+
+//------------------------------------------------------
+app.use(express.static('public'));
+
+//--------------------------------------------
+//        sql
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: '',
+    port: 3306
+});
+
+connection.connect(function(error) {
+    if (error) {
+        throw error;
+    } else {
+        console.log('Conexion correcta a base de datos.');
+    }
+});
+
+//-------------------------( SOCKETS)------------------------------------
+io.sockets.on('connection', function (socket) {
+  console.log("Usuario Conectado por sockets");
+    socket.on('messageChange', function (data) {
+      console.log(data);
+      socket.emit('receive', data.message.split('').reverse().join('') );
+    });
+});
+
+//---------------------(SERVER)-----------------------
+
+
+server.listen(80, function() {
+    console.log("Servidor corriendo en http://localhost:8080");
+});

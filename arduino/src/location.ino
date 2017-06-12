@@ -1,9 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2015 Matthijs Kooijman and Thomas Telkamp 
- * 
- * HLC (Hoeks.ma Location) .ino file edited by Johan Hoeksma                 
+ * Copyright (c) 2015 Matthijs Kooijman and Thomas Telkamp
+ *
+ * HLC (Hoeks.ma Location) .ino file edited by Johan Hoeksma
  * You will need a esp8266
- * 
+ *
  * Permission is hereby granted, free of charge, to anyone
  * obtaining a copy of this document and accompanying files,
  * to do whatever they want with them without any restriction,
@@ -35,9 +35,11 @@
 #define USE_SERIAL Serial
 
 // use ttn dashboard to get this keys
-static const PROGMEM u1_t NWKSKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-static const u1_t PROGMEM APPSKEY[16] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-static const u4_t DEVADDR = 0x00000000; // <-- Change this address for every node!
+//38 e5 43 86 7e b5 50 2c d0 88 15 7c d6 11 08 94
+static const PROGMEM u1_t NWKSKEY[16] = { 0x67, 0xA6, 0x1C, 0xC9, 0xA5, 0xF1, 0x7A, 0xBD, 0xAF, 0x71, 0x7A, 0x7B, 0x3A, 0xAB, 0x9B, 0x59 }; // 47AE21A9DFDA5C27B1EF99AB53814AE5
+//9c 00 03 42 81 db 22 fc bc 83 52 01 2f e5 35 74
+static const u1_t PROGMEM APPSKEY[16] = { 0xA6, 0x0F, 0xCB, 0x3C, 0x45, 0x9D, 0x66, 0xB9, 0x56, 0x15, 0x53, 0x4E, 0x2A, 0x7E, 0x0D, 0xC2 }; // 229D2A581DA7C7324EA94C9DE877F134
+static const u4_t DEVADDR = 0x260114B8; // <-- Change this address for every node!
 
 // WiFi vars
 static const int NR_MACS = 3;
@@ -55,11 +57,11 @@ static osjob_t sendjob;
 
 // Schedule TX every this many seconds (might become longer due to duty
 // cycle limitations).
-const unsigned TX_INTERVAL = 60;
+const unsigned TX_INTERVAL = 30;
 
 // Pin mapping ESP8266   D8 -> Slave select
 const lmic_pinmap lmic_pins = {
-    .nss = D8,
+    .nss = D0,
     .rxtx = LMIC_UNUSED_PIN,
     .rst = LMIC_UNUSED_PIN,
     .dio = {LMIC_UNUSED_PIN, LMIC_UNUSED_PIN, LMIC_UNUSED_PIN},
@@ -69,13 +71,13 @@ void ota() {
     USE_SERIAL.println();
     USE_SERIAL.println();
     Serial.println("ota");
-    WiFiMulti.addAP("ssid", "12345678");
+    WiFiMulti.addAP("YouWifiName", "YourWiFiPassword");
     for(uint8_t t = 5; t > 0; t--) {
         USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);
         USE_SERIAL.flush();
         delay(1000);
     }
-    
+
     Serial.println("setup complete");
     delay(5000);
     if(WiFiMulti.run() != WL_CONNECTED)  {
@@ -97,7 +99,7 @@ void ota() {
                 USE_SERIAL.println("HTTP_UPDATE_OK");
                 break;
         }
-    }  
+    }
 }
 
 boolean hasLocation() {
@@ -243,7 +245,21 @@ void setup() {
     LMIC_setupChannel(7, 868100000, DR_RANGE_MAP(DR_SF12, DR_SF7),  BAND_CENTI);      // g-band
     LMIC_setupChannel(8, 868100000, DR_RANGE_MAP(DR_FSK,  DR_FSK),  BAND_MILLI);      // g2-band
     #elif defined(CFG_us915)
-    LMIC_selectSubBand(1);
+      //Configuration for SubBand 7
+      for (int channel=0; channel<72; ++channel) {
+        LMIC_disableChannel(channel);
+      }
+
+      LMIC_enableChannel(48);
+      LMIC_enableChannel(49);
+      LMIC_enableChannel(50);
+      LMIC_enableChannel(51);
+      LMIC_enableChannel(52);
+      LMIC_enableChannel(53);
+      LMIC_enableChannel(54);
+      LMIC_enableChannel(55);
+      LMIC_enableChannel(70);
+
     #endif
     // Disable link check validation
     LMIC_setLinkCheckMode(0);
